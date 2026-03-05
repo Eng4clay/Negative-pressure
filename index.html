@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negative Pressure Rooms Weekly · Bani Malik General Hospital</title>
+    <!-- KaTeX for formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"></script>
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8b0000;        /* أحمر داكن للضغط السالب */
+            --primary-dark: #660000;
+            --secondary: #1f5c2e;
+            --accent: #cc3300;
+            --light-bg: #fff5f5;
+            --border: #f0c0c0;
+            --text-dark: #4d1e1e;
+            --shadow: 0 4px 12px rgba(139, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #f0f4f9;
+            display: flex;
+            justify-content: center;
+            padding: 24px;
+            color: #1a2b3c;
+        }
+
+        /* ===== MAIN CARD ===== */
+        .document-card {
+            max-width: 1300px;
+            width: 100%;
+            background: white;
+            box-shadow: var(--shadow);
+            border-radius: 28px;
+            padding: 32px 36px;
+            transition: all 0.2s;
+        }
+
+        /* ===== PRINT OPTIMIZATION ===== */
+        @media print {
+            body { background: white; padding: 0; }
+            .document-card { box-shadow: none; padding: 0.4in; border-radius: 0; }
+            .page-1 { page-break-after: avoid; }
+            .page-1 table { font-size: 10.5pt; }
+            .page-2 { page-break-before: always; margin-top: 0.3in; }
+            .no-print, .print-button, .save-button, .clear-button, .small-note { display: none !important; }
+            input, textarea { border: none; background: transparent; padding: 2px; }
+            td input { border-bottom: 1px solid #aaa; }
+            .info-value { border-bottom: 1px solid black; }
+        }
+
+        /* ===== HEADER ===== */
+        .cluster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--primary);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-area {
+            background: #ffffff;
+            padding: 8px 12px;
+            border-radius: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .logo-area img {
+            max-height: 70px;
+            width: auto;
+            max-width: 280px;
+            object-fit: contain;
+        }
+
+        .hospital-title {
+            text-align: right;
+            background: #ffeeee;
+            padding: 10px 28px;
+            border-radius: 40px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: 1px solid #ffcdcd;
+        }
+        .hospital-title span { font-weight: 800; color: #000; }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--primary-dark);
+            margin: 18px 0 12px;
+            padding-left: 20px;
+            border-left: 10px solid var(--primary);
+            background: linear-gradient(to right, #fff5f5, transparent);
+        }
+
+        /* ===== INFO GRID ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            background: #fff5f5;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 20px 24px;
+            margin: 20px 0 25px;
+            gap: 18px;
+            box-shadow: inset 0 1px 4px #ffffff, 0 4px 10px rgba(130, 0, 0, 0.05);
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #7a2a2a;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-bottom: 3px dashed #cb7a7a;
+            padding: 6px 0 4px;
+            background: transparent;
+            border-radius: 0;
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        input, textarea {
+            font-family: inherit;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border: 1.5px solid #f0d4d4;
+            border-radius: 14px;
+            background: white;
+            transition: all 0.15s;
+            width: 100%;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(139, 0, 0, 0.15);
+        }
+
+        td input {
+            border: none;
+            border-bottom: 2px solid #f0bfbf;
+            border-radius: 0;
+            background: transparent;
+            padding: 6px 4px;
+            font-size: 0.9rem;
+        }
+        td input:focus {
+            border-bottom-color: var(--primary);
+            background: #fff0f0;
+        }
+
+        /* ===== TABLES ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(100, 0, 0, 0.08);
+        }
+
+        th {
+            background: var(--primary-dark);
+            color: white;
+            font-weight: 600;
+            padding: 12px 6px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-right: 1px solid #b55f5f;
+        }
+        th:last-child { border-right: none; }
+
+        td {
+            padding: 6px 5px;
+            border: 1px solid #f5d5d5;
+            vertical-align: middle;
+            background: white;
+        }
+
+        .status-negative input {
+            color: #8b0000;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* ===== CHECKBOXES & BADGES ===== */
+        .badge-red {
+            background: var(--primary);
+            color: white;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+        .check-mark {
+            color: #1a7d4a;
+            font-weight: 600;
+            background: #e6ffee;
+            padding: 5px 18px;
+            border-radius: 30px;
+        }
+        .ac-status {
+            background: #fff5d6;
+            padding: 10px 25px;
+            border-radius: 40px;
+            border: 1px solid #ffd966;
+        }
+        .inline-checkbox {
+            transform: scale(1.2);
+            margin-right: 6px;
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===== COMPLIANCE & SECOND PAGE ===== */
+        .requirements-list {
+            background: #ffe2e2;
+            border-radius: 28px;
+            padding: 22px 30px;
+            list-style-type: none;
+            columns: 2;
+            column-gap: 40px;
+            font-weight: 500;
+            box-shadow: inset 0 1px 4px #fff, 0 6px 12px rgba(100, 0, 0, 0.1);
+        }
+        .requirements-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 28px;
+        }
+        .requirements-list li::before {
+            content: "✓";
+            color: var(--primary-dark);
+            font-weight: 800;
+            position: absolute;
+            left: 0;
+        }
+
+        .compliance-box {
+            background: #fff0f0;
+            border-radius: 32px;
+            padding: 28px 32px;
+            margin: 25px 0;
+            border: 1px solid #ffcfcf;
+        }
+
+        .formula-block {
+            background: white;
+            border-radius: 24px;
+            padding: 18px 24px;
+            margin: 15px 0;
+            border-left: 8px solid var(--primary);
+        }
+
+        .job-order-note {
+            background: #fff1e5;
+            border-left: 10px solid var(--accent);
+            padding: 18px 26px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* ===== SIGNATURES ===== */
+        .signature-line {
+            display: flex;
+            gap: 40px;
+            margin: 35px 0 20px;
+            flex-wrap: wrap;
+        }
+        .signature-item {
+            flex: 1 1 240px;
+            background: #fff5f5;
+            padding: 16px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        .signature-item input {
+            width: auto;
+            flex: 1 1 120px;
+            border-bottom: 2px solid #c08080;
+            border-radius: 0;
+            padding: 4px 0;
+        }
+
+        /* ===== BUTTONS ===== */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 30px 0 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            border: none;
+            padding: 14px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.2);
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-save { background: #1f5c2e; color: white; }
+        .btn-clear { background: #9e3b3b; color: white; }
+        .btn-print { background: var(--primary-dark); color: white; }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn:active { transform: translateY(2px); box-shadow: none; }
+
+        .small-note {
+            font-size: 0.8rem;
+            color: #806060;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff5f5;
+            border-radius: 40px;
+        }
+
+        .page-break { page-break-before: always; height: 20px; }
+        .second-page { margin-top: 20px; }
+
+        /* تحسين للجوال */
+        @media (max-width: 700px) {
+            .document-card { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="document-card">
+    <!-- ========== PAGE 1 ========== -->
+    <div class="page-1">
+        <!-- HEADER -->
+        <div class="cluster-header">
+            <div class="logo-area">
+                <img src="logo.jpeg" alt="Jazan Health Cluster" onerror="this.style.display='none'">
+            </div>
+            <div class="hospital-title">
+                <span dir="rtl">مستشفى بني مالك العام</span><br>
+                <span style="font-size: 0.9rem;">BANI MALIK GENERAL HOSPITAL</span>
+            </div>
+        </div>
+
+        <h1>🏥 NEGATIVE PRESSURE ROOMS · WEEKLY</h1>
+
+        <!-- INFO GRID -->
+        <div class="info-grid">
+            <div class="info-item"><span class="info-label">Hospital</span><input type="text" class="info-value" value="مستشفى بني مالك العام" id="hospitalName"></div>
+            <div class="info-item"><span class="info-label">Day</span><input type="text" class="info-value" value="الأحد" id="day"></div>
+            <div class="info-item"><span class="info-label">Bed Capacity</span><input type="text" class="info-value" value="50" id="bedCapacity"></div>
+            <div class="info-item"><span class="info-label">Date</span><input type="text" class="info-value" value="2025-03-06" id="date"></div>
+            <div class="info-item"><span class="info-label">CBAHI Std</span><input type="text" class="info-value" value="15" id="cbahiStandard"></div>
+            <div class="info-item"><span class="info-label">Month No.</span><input type="text" class="info-value" value="3" id="monthNo"></div>
+        </div>
+
+        <!-- STATUS BADGE -->
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 15px;">
+            <span class="badge-red">✅ ROOMS FUNCTIONAL (NEGATIVE)</span>
+            <span class="check-mark">✔ verified</span>
+        </div>
+
+        <!-- TABLE 1: ROOM PARAMETERS -->
+        <table id="roomsTable">
+            <thead><tr><th>Room</th><th>Ward</th><th>Floor</th><th>Temp (°C)</th><th>Humidity (%)</th><th>ACH</th><th>Pressure (Pa)</th></tr></thead>
+            <tbody>
+                <tr><td>AIIR-1</td><td><input type="text" placeholder="ICU"></td><td><input type="text" placeholder="2nd"></td><td><input type="text" placeholder="22.5"></td><td><input type="text" placeholder="50"></td><td><input type="text" placeholder="12"></td><td class="status-negative"><input type="text" value="-3.5"></td></tr>
+                <tr><td>AIIR-2</td><td><input type="text" placeholder="ER"></td><td><input type="text" placeholder="G"></td><td><input type="text" placeholder="22.7"></td><td><input type="text" placeholder="48"></td><td><input type="text" placeholder="12.5"></td><td class="status-negative"><input type="text" value="-4.2"></td></tr>
+                <tr><td>ISO-3</td><td><input type="text" placeholder="Infectious"></td><td><input type="text" placeholder="3rd"></td><td><input type="text" placeholder="23.1"></td><td><input type="text" placeholder="52"></td><td><input type="text" placeholder="10"></td><td class="status-negative"><input type="text" value="-3.8"></td></tr>
+                <tr><td>ISO-4</td><td><input type="text" placeholder="Infectious"></td><td><input type="text" placeholder="3rd"></td><td><input type="text" placeholder="22.0"></td><td><input type="text" placeholder="47"></td><td><input type="text" placeholder="10.5"></td><td class="status-negative"><input type="text" value="-3.0"></td></tr>
+                <tr><td>BR-5</td><td><input type="text" placeholder="Burn"></td><td><input type="text" placeholder="1st"></td><td><input type="text" placeholder="22.3"></td><td><input type="text" placeholder="49"></td><td><input type="text" placeholder="8"></td><td class="status-negative"><input type="text" value="-2.9"></td></tr>
+                <tr><td>LAB-6</td><td><input type="text" placeholder="Microbiology"></td><td><input type="text" placeholder="1st"></td><td><input type="text" placeholder="23.4"></td><td><input type="text" placeholder="51"></td><td><input type="text" placeholder="7.5"></td><td class="status-negative"><input type="text" value="-3.2"></td></tr>
+                <tr><td>NEG-7</td><td><input type="text" placeholder="Respiratory"></td><td><input type="text" placeholder="2nd"></td><td><input type="text" placeholder="22.8"></td><td><input type="text" placeholder="50"></td><td><input type="text" placeholder="9"></td><td class="status-negative"><input type="text" value="-4.0"></td></tr>
+                <tr><td><input type="text" placeholder="Room #"></td><td><input type="text" placeholder="Ward"></td><td><input type="text" placeholder="Floor"></td><td><input type="text" placeholder="°C"></td><td><input type="text" placeholder="%"></td><td><input type="text" placeholder="ACH"></td><td><input type="text" placeholder="Pa"></td></tr>
+            </tbody>
+        </table>
+
+        <!-- AIRFLOW / AC -->
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin: 15px 0 25px;">
+            <span style="font-weight: 700; font-size: 1.2rem;">💨 AIRFLOW DIRECTION: INWARD (NEGATIVE)</span>
+            <label><input type="checkbox" class="inline-checkbox" id="notInactive" checked> Not Inactive</label>
+            <span class="ac-status">
+                AC: <input type="checkbox" class="inline-checkbox" id="acWorking" checked> Working 
+                <input type="checkbox" class="inline-checkbox" id="acNotWorking"> Not Working
+            </span>
+        </div>
+
+        <!-- TABLE 2: PROBLEMS & ACTIONS -->
+        <table class="problem-table" id="problemTable">
+            <thead>
+                <tr><th>Room</th><th>Ward</th><th>Floor</th><th>Problem Description</th><th>U&M Staff</th><th>IPC Staff</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><input type="text" placeholder="AIIR-1"></td><td><input type="text" placeholder="ICU"></td><td><input type="text" placeholder="2"></td><td><input type="text" placeholder="Pressure dropped to -2.0"></td><td><input type="text" placeholder="A. Ahmed"></td><td><input type="text" placeholder="Dr. Salim"></td></tr>
+                <tr><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td></tr>
+                <tr><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td><td><input type="text" placeholder=" "></td></tr>
+            </tbody>
+        </table>
+
+        <!-- SIGNATURE -->
+        <div class="signature-line">
+            <div class="signature-item"><strong>🔧 Engineer</strong> <input type="text" placeholder="Name"> <span>Date <input type="text" placeholder="__/__"></span></div>
+            <div class="signature-item"><strong>🛡️ Infection Control</strong> <input type="text" placeholder="Name"> <span>Date <input type="text" placeholder="__/__"></span></div>
+        </div>
+    </div> <!-- end page 1 -->
+
+    <!-- PAGE BREAK -->
+    <div class="page-break"></div>
+
+    <!-- ========== PAGE 2: STANDARDS & FORMULAS ========== -->
+    <div class="page-2 second-page">
+        <!-- REQUIREMENTS LIST (NEGATIVE PRESSURE) -->
+        <ul class="requirements-list">
+            <li>Negative pressure range: <strong>-2.5 to -15 Pa</strong> (Pascal) according to ASHRAE 170</li>
+            <li>Air changes per hour (ACH) ≥ <strong>12 for AIIR</strong> (new construction) / ≥ 6 for existing</li>
+            <li>Room must be tightly sealed with inward airflow</li>
+            <li>Open work order with U&M if pressure > -2.5 Pa (less negative)</li>
+            <li>Notify Infection Prevention (IPC) immediately if pressure reverses</li>
+            <li>Visual verification (smoke tube) every shift</li>
+            <li>Exhaust directly to outside, HEPA filter if recirculated</li>
+        </ul>
+
+        <!-- COMPLIANCE CARD WITH ALL FORMULAS -->
+        <div class="compliance-box">
+            <h3 style="color:var(--primary-dark); margin-top:0;">📐 ASHRAE Standard 170-2021 (Negative Pressure)</h3>
+            <p>Airborne Infection Isolation Rooms (AIIR) shall be maintained at <strong>negative pressure</strong> relative to all surrounding areas with a minimum pressure differential of <strong>-2.5 Pa</strong> (0.01 in water). Recommended range: <strong>-2.5 Pa to -15 Pa</strong>.</p>
+
+            <div class="formula-block">
+                <h4 style="margin-top: 0; color: #8b0000;">📌 معادلات حساب ACH (معدل تغيير الهواء)</h4>
+                
+                <p style="font-weight: 600; margin-bottom: 5px;">🔹 النظام المتري (SI):</p>
+                <p style="font-size: 1.2rem; background: #fff0f0; padding: 8px; border-radius: 12px;">
+                    \[ACH = \frac{Q}{V}\]
+                </p>
+                <p><em>Q = معدل تدفق الهواء (m³/h)  |  V = حجم الغرفة (m³) = الطول × العرض × الارتفاع</em></p>
+                
+                <p style="font-weight: 600; margin: 15px 0 5px;">🔹 النظام الأمريكي (Imperial):</p>
+                <p style="font-size: 1.2rem; background: #fff0f0; padding: 8px; border-radius: 12px;">
+                    \[ACH = \frac{CFM \times 60}{Volume\ (ft^3)}\]
+                </p>
+                <p><em>CFM = قدم مكعب/دقيقة  |  Volume = الطول بالقدم × العرض بالقدم × الارتفاع بالقدم</em></p>
+                
+                <hr style="margin: 15px 0; border-color: #ffb0b0;">
+                
+                <p><strong>⚡ معادلات تحويل وإضافية:</strong><br>
+                - تحويل CFM إلى m³/h: \( Q = CFM \times 1.699 \)<br>
+                - تحويل قدم مكعب إلى متر مكعب: \( V = Volume\ (ft^3) \times 0.0283 \)<br>
+                - حساب التدفق من سرعة الهواء: \( Q = A \times v \times 3600 \) (للمتري) أو \( Q = A \times v \times 2118.9 \) (للأمريكي)<br>
+                - حساب سرعة الهواء من الضغط: \( v = \sqrt{\frac{2 \times \Delta P}{\rho}} \) حيث ρ = 1.2 kg/m³
+                </p>
+
+                <p><strong>📊 معادلة الضغط التفاضلي (من السرعة):</strong><br>
+                \[\Delta P = \frac{1}{2} \rho v^{2}, \quad \rho \approx 1.2\ \text{kg/m}^3\]
+                </p>
+
+                <p><strong>🔁 تحويل الباسكال إلى بوصة ماء:</strong><br>
+                \[1 \text{Pa} = 0.004 \text{in H}_2\text{O} \quad | \quad -2.5 \text{Pa} = -0.01 \text{in H}_2\text{O}\]
+                </p>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+                <span><strong>🔹 ΔP negative</strong> (Pascal)</span>
+                <span><strong>🔹 AIIR</strong> (Airborne Infection Isolation Room)</span>
+                <span><strong>🔹 ACH ≥ 12</strong> (new construction)</span>
+                <span><strong>🔹 Smoke test</strong> (visual confirmation)</span>
+            </div>
+        </div>
+
+        <!-- JOB ORDER NOTE -->
+        <div class="job-order-note">
+            ⚙️ <strong>Any pressure above -2.5 Pa → open job order with U&M & notify IPC immediately.</strong>
+        </div>
+
+        <!-- BUTTONS (بدون أي تنبيهات) -->
+        <div class="button-group no-print">
+            <button class="btn btn-save" id="saveBtn">💾 حفظ البيانات</button>
+            <button class="btn btn-clear" id="clearBtn">🗑️ مسح الكل</button>
+            <button class="btn btn-print" id="printBtn">🖨️ طباعة / PDF</button>
+        </div>
+
+        <div class="small-note no-print">
+            ⚠️ ضع ملف الشعار <code>logo.jpeg</code> في نفس المجلد.
+        </div>
+    </div>
+</div>
+
+<!-- ========== SCRIPT CLEAN ========== -->
+<script>
+(function() {
+    // الحقول المعروفة
+    const explicitIds = ['hospitalName','day','bedCapacity','date','cbahiStandard','monthNo','notInactive','acWorking','acNotWorking'];
+    
+    function getFormData() {
+        const data = {};
+        explicitIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.type === 'checkbox') data[id] = el.checked;
+                else data[id] = el.value;
+            }
+        });
+
+        // جميع المدخلات الأخرى
+        const extraInputs = [];
+        document.querySelectorAll('input, textarea').forEach(el => {
+            if (explicitIds.includes(el.id)) return;
+            if (el.type === 'checkbox') {
+                extraInputs.push({ type: 'checkbox', checked: el.checked });
+            } else {
+                extraInputs.push({ type: 'text', value: el.value });
+            }
+        });
+        data.extraInputs = extraInputs;
+        return data;
+    }
+
+    function loadFormData(data) {
+        if (!data) return;
+        explicitIds.forEach(id => {
+            if (data[id] !== undefined) {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = data[id];
+                    else el.value = data[id];
+                }
+            }
+        });
+
+        if (data.extraInputs && Array.isArray(data.extraInputs)) {
+            const allInputs = document.querySelectorAll('input, textarea');
+            let idx = 0;
+            for (let el of allInputs) {
+                if (explicitIds.includes(el.id)) continue;
+                if (idx >= data.extraInputs.length) break;
+                const saved = data.extraInputs[idx];
+                if (saved.type === 'checkbox' && el.type === 'checkbox') {
+                    el.checked = saved.checked;
+                } else if (el.type !== 'checkbox') {
+                    el.value = saved.value || '';
+                }
+                idx++;
+            }
+        }
+    }
+
+    function saveToStorage() {
+        const data = getFormData();
+        localStorage.setItem('negPressureForm', JSON.stringify(data));
+    }
+
+    // الأزرار
+    document.getElementById('saveBtn').addEventListener('click', function() {
+        saveToStorage();
+        // لا alert
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        if (confirm('مسح جميع الحقول؟')) {
+            document.querySelectorAll('input:not([type=checkbox]), textarea').forEach(el => el.value = '');
+            document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
+            localStorage.removeItem('negPressureForm');
+        }
+    });
+
+    document.getElementById('printBtn').addEventListener('click', function() {
+        window.print();
+    });
+
+    // تحميل تلقائي
+    window.addEventListener('load', function() {
+        const saved = localStorage.getItem('negPressureForm');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                loadFormData(data);
+            } catch (e) {}
+        }
+    });
+
+    // حفظ تلقائي صامت
+    let timer;
+    document.addEventListener('input', function() {
+        clearTimeout(timer);
+        timer = setTimeout(saveToStorage, 700);
+    });
+    document.addEventListener('change', function() {
+        clearTimeout(timer);
+        timer = setTimeout(saveToStorage, 700);
+    });
+})();
+</script>
+
+<!-- Render KaTeX -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+    });
+</script>
+</body>
+</html>
